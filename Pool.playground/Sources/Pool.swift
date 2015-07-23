@@ -1,41 +1,37 @@
 import Foundation
 
 public protocol PoolOperation {
-    typealias Notification
-    func operation() -> NSOperation
+    typealias NotificationManager: PoolNotificationManager
+
+    func operation(notificationManager: NotificationManager) -> NSOperation
     func descendantOperations() -> NSOperation // actually a Pipeline
-    func notification() -> Notification
 }
 
 public protocol PoolNotificationManager {
-    typealias Operation: PoolOperation
+    typealias Notification
     init()
-    func notify(notification: Operation.Notification)
+    func notify(notification: Notification)
 }
 
-public final class Pool<N: PoolNotificationManager> {
-    public let notificationManager = N()
+public final class Pool<O where O: PoolOperation> {
+    public let notificationManager = O.NotificationManager()
 
     public init() {}
 
-    public func run(operation: N.Operation) {
-        let rootOperation = operation.operation()
+    public func run(operation: O) {
+        let rootOperation = operation.operation(notificationManager)
         let descendant = operation.descendantOperations()
         descendant.addDependency(rootOperation)
-        // Pipeline should have a way to "prepend" preceding operations
-        // Enqueue both
 
-        // pipeline.then {
-        notificationManager.notify(operation.notification())
-        // }
+        let q = NSOperationQueue()
+        q.addOperation(rootOperation)
+        q.addOperation(descendant)
     }
 }
 
 public protocol OperationObserver: class {
-    typealias NotificationManager: PoolNotificationManager
-
-    var pool: Pool<NotificationManager> { get set }
-
+    typealias Operation: PoolOperation
+    var pool: Pool<Operation> { get set }
     func registerForNotifications()
 }
 

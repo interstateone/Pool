@@ -6,37 +6,39 @@ class SomeViewController: NSObject, DemoOperationObserver {
 
     // MARK: OperationObserver
 
-    typealias NotificationManager = DemoPoolNotificationManager
+    typealias Operation = DemoOperation
 
-    var pool: Pool<NotificationManager>
+    var pool: Pool<Operation>
 
     // MARK: DemoOperationObserver
 
-    func loggedIn() {
+    func loggedInWithUser(user: User) {
         // Run some operations
-        loggedInWasCalled = true
+        loggedInWithUser = user
+        print("login observed")
     }
 
     func loggedOut() {
         // Run some others
         loggedOutWasCalled = true
+        print("logout observed")
     }
 
     // MARK: -
 
-    init(pool: Pool<NotificationManager>) {
+    init(pool: Pool<Operation>) {
         self.pool = pool
         super.init()
         registerForNotifications()
     }
 
-    // MARK: Example
+    // MARK: Example mocks
 
-    var loggedInWasCalled = false
+    var loggedInWithUser: User? = nil
     var loggedOutWasCalled = false
 }
 
-let pool = Pool<DemoPoolNotificationManager>()
+let pool = Pool<DemoOperation>()
 
 let vc = SomeViewController(pool: pool)
 
@@ -44,9 +46,9 @@ let vc = SomeViewController(pool: pool)
 let email = "user@example.com"
 let password = "password123"
 
-print(vc.loggedInWasCalled)
+print(vc.loggedInWithUser)
 pool.run(.Login(email, password))
-print(vc.loggedInWasCalled)
+print(vc.loggedInWithUser)
 
 print(vc.loggedOutWasCalled)
 pool.run(.Logout)
