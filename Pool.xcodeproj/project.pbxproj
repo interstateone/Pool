@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA187B841B63141700B64461 /* Pipeline.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AFA1B63136600B9899A /* Pipeline.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CA187B851B63141700B64461 /* Result.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AFB1B63136600B9899A /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CA754AD41B630CAC00B9899A /* Pool.h in Headers */ = {isa = PBXBuildFile; fileRef = CA754AD31B630CAC00B9899A /* Pool.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA754ADB1B630CAC00B9899A /* Pool.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AD01B630CAC00B9899A /* Pool.framework */; };
 		CA754AE01B630CAC00B9899A /* PoolSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA754ADF1B630CAC00B9899A /* PoolSpec.swift */; };
@@ -17,6 +19,10 @@
 		CA754AF61B63117900B9899A /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AF41B63117900B9899A /* Quick.framework */; };
 		CA754AF81B63119800B9899A /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AF31B63117900B9899A /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CA754AF91B63119800B9899A /* Quick.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AF41B63117900B9899A /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CA754AFC1B63136600B9899A /* Pipeline.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AFA1B63136600B9899A /* Pipeline.framework */; };
+		CA754AFD1B63136600B9899A /* Pipeline.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AFA1B63136600B9899A /* Pipeline.framework */; };
+		CA754AFE1B63136600B9899A /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AFB1B63136600B9899A /* Result.framework */; };
+		CA754AFF1B63136600B9899A /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AFB1B63136600B9899A /* Result.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +42,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				CA187B841B63141700B64461 /* Pipeline.framework in Copy Frameworks */,
+				CA187B851B63141700B64461 /* Result.framework in Copy Frameworks */,
 				CA754AF81B63119800B9899A /* Nimble.framework in Copy Frameworks */,
 				CA754AF91B63119800B9899A /* Quick.framework in Copy Frameworks */,
 			);
@@ -56,6 +64,8 @@
 		CA754AF01B630D6000B9899A /* Demo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
 		CA754AF31B63117900B9899A /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		CA754AF41B63117900B9899A /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
+		CA754AFA1B63136600B9899A /* Pipeline.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pipeline.framework; path = Carthage/Build/iOS/Pipeline.framework; sourceTree = "<group>"; };
+		CA754AFB1B63136600B9899A /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +73,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA754AFC1B63136600B9899A /* Pipeline.framework in Frameworks */,
+				CA754AFE1B63136600B9899A /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +82,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA754AFF1B63136600B9899A /* Result.framework in Frameworks */,
+				CA754AFD1B63136600B9899A /* Pipeline.framework in Frameworks */,
 				CA754ADB1B630CAC00B9899A /* Pool.framework in Frameworks */,
 				CA754AF51B63117900B9899A /* Nimble.framework in Frameworks */,
 				CA754AF61B63117900B9899A /* Quick.framework in Frameworks */,
@@ -122,6 +136,8 @@
 		CA754AF21B63115F00B9899A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CA754AFA1B63136600B9899A /* Pipeline.framework */,
+				CA754AFB1B63136600B9899A /* Result.framework */,
 				CA754AF31B63117900B9899A /* Nimble.framework */,
 				CA754AF41B63117900B9899A /* Quick.framework */,
 			);
@@ -359,6 +375,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Pool/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -377,6 +397,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Pool/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

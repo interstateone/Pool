@@ -1,2 +1,4 @@
 github "Quick/Nimble" "a804949542eb2f299b823ffb36936aec54fe0db6"
 github "Quick/Quick" "e3c802be6c55710b39dba73caab9f234932c2ed7"
+github "Antitypical/Result" "0.5"
+github "interstateone/Pipeline" "fefd3a9cfa003784129a9c2423c8206ca0bd585a"
