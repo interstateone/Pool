@@ -1,4 +1,5 @@
 import Foundation
+import Pool
 
 public enum DemoOperationsNotification {
     case LoggedIn(User)
@@ -70,6 +71,18 @@ public enum DemoOperation: PoolOperation {
             }
         }
     }
+
+    public func notification<Value>(value: Value) -> NotificationManager.Notification? {
+        switch self {
+        case .Login:
+            if let user = value as? User {
+                return .LoggedIn(user)
+            }
+        case .Logout:
+            return .LoggedOut
+        }
+        return .None
+    }
 }
 
 public protocol DemoOperationObserver: OperationObserver {
@@ -84,4 +97,40 @@ public extension DemoOperationObserver where Operation == DemoOperation {
         self.pool.notificationManager.loggedInObservers.add(self, self.dynamicType.loggedInWithUser)
         self.pool.notificationManager.loggedOutObservers.add(self, self.dynamicType.loggedOut)
     }
+}
+
+class DemoViewController: NSObject, DemoOperationObserver {
+
+    // MARK: OperationObserver
+
+    typealias Operation = DemoOperation
+
+    var pool: Pool<Operation>
+
+    // MARK: DemoOperationObserver
+
+    func loggedInWithUser(user: User) {
+        // Run some operations
+        loggedInUser = user
+        print("login observed")
+    }
+
+    func loggedOut() {
+        // Run some others
+        loggedOutWasCalled = true
+        print("logout observed")
+    }
+
+    // MARK: -
+
+    init(pool: Pool<Operation>) {
+        self.pool = pool
+        super.init()
+        registerForNotifications()
+    }
+
+    // MARK: Example mocks
+
+    var loggedInUser: User? = nil
+    var loggedOutWasCalled = false
 }

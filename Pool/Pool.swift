@@ -3,8 +3,9 @@ import Foundation
 public protocol PoolOperation {
     typealias NotificationManager: PoolNotificationManager
 
-    func operation(notificationManager: NotificationManager) -> NSOperation
-    func descendantOperations() -> NSOperation // actually a Pipeline
+    func operation(notificationManager: NotificationManager) -> NSOperation // Pipelinable
+    func descendantOperations() -> NSOperation // takes a Pipeline, returns a Pipeline
+    func notification<Value>(value: Value) -> NotificationManager.Notification?
 }
 
 public protocol PoolNotificationManager {
@@ -20,12 +21,23 @@ public final class Pool<O where O: PoolOperation> {
 
     public func run(operation: O) {
         let rootOperation = operation.operation(notificationManager)
+        // Pipeline {
+        //     rootOperation
+        // }
+        // .success { result in
+        //     if let notification = operation.notification(result) {
+        //         notificationManager.notify(notification)
+        //     }
+        //     return result
+        // }
         let descendant = operation.descendantOperations()
         descendant.addDependency(rootOperation)
+        // rootPipeline = operation.appendDescendantOperations(rootPipeline)
 
         let q = NSOperationQueue()
         q.addOperation(rootOperation)
         q.addOperation(descendant)
+        // rootPipeline.start()
     }
 }
 
