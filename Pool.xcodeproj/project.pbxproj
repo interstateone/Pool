@@ -9,10 +9,14 @@
 /* Begin PBXBuildFile section */
 		CA754AD41B630CAC00B9899A /* Pool.h in Headers */ = {isa = PBXBuildFile; fileRef = CA754AD31B630CAC00B9899A /* Pool.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA754ADB1B630CAC00B9899A /* Pool.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AD01B630CAC00B9899A /* Pool.framework */; };
-		CA754AE01B630CAC00B9899A /* PoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA754ADF1B630CAC00B9899A /* PoolTests.swift */; };
+		CA754AE01B630CAC00B9899A /* PoolSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA754ADF1B630CAC00B9899A /* PoolSpec.swift */; };
 		CA754AEE1B630D2700B9899A /* ObserverSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA754AEB1B630D2700B9899A /* ObserverSet.swift */; };
 		CA754AEF1B630D2700B9899A /* Pool.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA754AEC1B630D2700B9899A /* Pool.swift */; };
 		CA754AF11B630D6000B9899A /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA754AF01B630D6000B9899A /* Demo.swift */; };
+		CA754AF51B63117900B9899A /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AF31B63117900B9899A /* Nimble.framework */; };
+		CA754AF61B63117900B9899A /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AF41B63117900B9899A /* Quick.framework */; };
+		CA754AF81B63119800B9899A /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AF31B63117900B9899A /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CA754AF91B63119800B9899A /* Quick.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = CA754AF41B63117900B9899A /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,16 +29,33 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		CA754AF71B63118D00B9899A /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CA754AF81B63119800B9899A /* Nimble.framework in Copy Frameworks */,
+				CA754AF91B63119800B9899A /* Quick.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		CA754AD01B630CAC00B9899A /* Pool.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pool.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA754AD31B630CAC00B9899A /* Pool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Pool.h; sourceTree = "<group>"; };
 		CA754AD51B630CAC00B9899A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA754ADA1B630CAC00B9899A /* PoolTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PoolTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA754ADF1B630CAC00B9899A /* PoolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolTests.swift; sourceTree = "<group>"; };
+		CA754ADF1B630CAC00B9899A /* PoolSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolSpec.swift; sourceTree = "<group>"; };
 		CA754AE11B630CAC00B9899A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA754AEB1B630D2700B9899A /* ObserverSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverSet.swift; sourceTree = "<group>"; };
 		CA754AEC1B630D2700B9899A /* Pool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pool.swift; sourceTree = "<group>"; };
 		CA754AF01B630D6000B9899A /* Demo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
+		CA754AF31B63117900B9899A /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
+		CA754AF41B63117900B9899A /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +71,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA754ADB1B630CAC00B9899A /* Pool.framework in Frameworks */,
+				CA754AF51B63117900B9899A /* Nimble.framework in Frameworks */,
+				CA754AF61B63117900B9899A /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +84,7 @@
 			children = (
 				CA754AD21B630CAC00B9899A /* Pool */,
 				CA754ADE1B630CAC00B9899A /* PoolTests */,
+				CA754AF21B63115F00B9899A /* Frameworks */,
 				CA754AD11B630CAC00B9899A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -89,10 +113,19 @@
 			isa = PBXGroup;
 			children = (
 				CA754AF01B630D6000B9899A /* Demo.swift */,
-				CA754ADF1B630CAC00B9899A /* PoolTests.swift */,
+				CA754ADF1B630CAC00B9899A /* PoolSpec.swift */,
 				CA754AE11B630CAC00B9899A /* Info.plist */,
 			);
 			path = PoolTests;
+			sourceTree = "<group>";
+		};
+		CA754AF21B63115F00B9899A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CA754AF31B63117900B9899A /* Nimble.framework */,
+				CA754AF41B63117900B9899A /* Quick.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,6 +167,7 @@
 				CA754AD61B630CAC00B9899A /* Sources */,
 				CA754AD71B630CAC00B9899A /* Frameworks */,
 				CA754AD81B630CAC00B9899A /* Resources */,
+				CA754AF71B63118D00B9899A /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -213,7 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA754AF11B630D6000B9899A /* Demo.swift in Sources */,
-				CA754AE01B630CAC00B9899A /* PoolTests.swift in Sources */,
+				CA754AE01B630CAC00B9899A /* PoolSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +389,10 @@
 		CA754AE81B630CAC00B9899A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = PoolTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ca.brandonevans.PoolTests;
@@ -365,6 +403,10 @@
 		CA754AE91B630CAC00B9899A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = PoolTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ca.brandonevans.PoolTests;
