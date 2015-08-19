@@ -2,7 +2,7 @@
 
 **This is a work-in-progress and might not ever be any more than an experiment.**
 
-A pool runs predefined [Pipelines](https://github.com/interstateone/Pipeline) and notifies observers with the result.
+A pool runs predefined operations with [Pipeline](https://github.com/interstateone/Pipeline) and notifies observers with the result.
 
 ## A Trivial Example
 
