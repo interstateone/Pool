@@ -37,12 +37,12 @@ public final class DemoPoolNotificationManager: PoolNotificationManager {
 
 public struct LoginOperation: PoolOperation {
     public typealias Notification = DemoOperationsNotification
-    public typealias OperationValue = User
+    public typealias OperationResult = User
 
     let email: String
     let password: String
 
-    public var pipeline: Pipeline<OperationValue> {
+    public var pipeline: Pipeline<OperationResult> {
         return Pipeline(.Default) {
             PipelineOperation { fulfill, reject, handlers in
                 print("logging in with \(self.email), \(self.password)")
@@ -51,16 +51,16 @@ public struct LoginOperation: PoolOperation {
         }
     }
 
-    public func notification(value: OperationValue) -> Notification? {
+    public func notification(value: OperationResult) -> Notification {
         return .LoggedIn(value)
     }
 }
 
 public struct LogoutOperation: PoolOperation {
     public typealias Notification = DemoOperationsNotification
-    public typealias OperationValue = Void
+    public typealias OperationResult = Void
 
-    public var pipeline: Pipeline<OperationValue> {
+    public var pipeline: Pipeline<OperationResult> {
         return Pipeline(.Default) {
             PipelineOperation { fulfill, reject, handlers in
                 print("logging out")
@@ -69,7 +69,7 @@ public struct LogoutOperation: PoolOperation {
         }
     }
 
-    public func notification(value: OperationValue) -> Notification? {
+    public func notification(value: OperationResult) -> Notification {
         return .LoggedOut
     }
 }

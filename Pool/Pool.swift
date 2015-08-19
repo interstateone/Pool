@@ -3,10 +3,10 @@ import Pipeline
 
 public protocol PoolOperation {
     typealias Notification
-    typealias OperationValue
+    typealias OperationResult
 
-    var pipeline: Pipeline<OperationValue> { get }
-    func notification(value: OperationValue) -> Notification?
+    var pipeline: Pipeline<OperationResult> { get }
+    func notification(value: OperationResult) -> Notification
 }
 
 public protocol PoolNotificationManager {
@@ -21,14 +21,10 @@ public final class Pool<NotificationManager where NotificationManager: PoolNotif
     public init() {}
 
     public func run<Operation: PoolOperation where Operation.Notification == NotificationManager.Notification>(operation: Operation) {
-        var pipeline = operation.pipeline
-        pipeline = pipeline.success { (result: Operation.OperationValue) -> Operation.OperationValue in
-            if let notification = operation.notification(result) {
-                self.notificationManager.notify(notification)
-            }
-            return result
-        }
-        pipeline.start()
+        operation.pipeline.success { result in
+            let notification = operation.notification(result)
+            self.notificationManager.notify(notification)
+        }.start()
     }
 }
 
