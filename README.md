@@ -7,18 +7,13 @@ A pool runs predefined [Pipelines](https://github.com/interstateone/Pipeline) an
 ## A Trivial Example
 
 ```swift
-let pool = Pool<DemoOperation>()
+let pool = Pool<DemoPoolNotificationManager>()
+let viewController = DemoViewController(notificationManager: pool.notificationManager)
 
-let vc = DemoViewController(pool: pool)
+pool.run(LoginOperation(email: "user@example.com", password: "password123"))
+print(viewController.loggedInUser) // <User: 0x7fe4d9f315b0>
 
-let email = "user@example.com"
-let password = "password123"
-
-XCTAssertNil(vc.loggedInUser)
-pool.run(.Login(email, password))
-XCTAssertNotNil(vc.loggedInUser)
-
-XCTAssertFalse(vc.loggedOutWasCalled)
-pool.run(.Logout)
-XCTAssertTrue(vc.loggedOutWasCalled)
+pool.run(LogoutOperation())
+print(viewController.loggedOutWasCalled) // true
 ```
+

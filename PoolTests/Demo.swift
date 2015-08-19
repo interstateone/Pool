@@ -1,12 +1,21 @@
 import Foundation
 import Pool
+import Pipeline
+
+public final class User {
+    let email: String
+    let password: String
+
+    init(email: String, password: String) {
+        self.email = email
+        self.password = password
+    }
+}
 
 public enum DemoOperationsNotification {
     case LoggedIn(User)
     case LoggedOut
 }
-
-public final class User {}
 
 public final class DemoPoolNotificationManager: PoolNotificationManager {
     public typealias Notification = DemoOperationsNotification
@@ -26,76 +35,54 @@ public final class DemoPoolNotificationManager: PoolNotificationManager {
     }
 }
 
-public enum DemoOperation: PoolOperation {
-    case Login(String, String)
-    case Logout
+public struct LoginOperation: PoolOperation {
+    public typealias Notification = DemoOperationsNotification
+    public typealias OperationValue = User
 
-    public typealias NotificationManager = DemoPoolNotificationManager
-    public func operation(notificationManager: NotificationManager) -> NSOperation {
-        switch self {
-        case .Login(let email, let password):
-            let op = OutputOperation<User> {
-                print("logging in with \(email), \(password)")
-            }
-            op.output = User()
+    let email: String
+    let password: String
 
-            if let output = op.output {
-                notificationManager.notify(.LoggedIn(output))
+    public var pipeline: Pipeline<OperationValue> {
+        return Pipeline(.Default) {
+            PipelineOperation { fulfill, reject, handlers in
+                print("logging in with \(self.email), \(self.password)")
+                fulfill(User(email: self.email, password: self.password))
             }
-            
-            return op
-        case .Logout:
-            let op = OutputOperation<Void> {
+        }
+    }
+
+    public func notification(value: OperationValue) -> Notification? {
+        return .LoggedIn(value)
+    }
+}
+
+public struct LogoutOperation: PoolOperation {
+    public typealias Notification = DemoOperationsNotification
+    public typealias OperationValue = Void
+
+    public var pipeline: Pipeline<OperationValue> {
+        return Pipeline(.Default) {
+            PipelineOperation { fulfill, reject, handlers in
                 print("logging out")
-            }
-            op.output = ()
-
-            notificationManager.notify(.LoggedOut)
-
-            return op
-        }
-    }
-
-    // again, would actually be a pipeline
-    public func descendantOperations() -> NSOperation {
-        switch self {
-        case .Login:
-            return NSBlockOperation {
-                // load user info, update views, etc.
-                print("login descendant")
-            }
-        case .Logout:
-            return NSBlockOperation {
-                // purge caches, update views, etc.
-                print("logout descendant")
+                fulfill()
             }
         }
     }
 
-    public func notification<Value>(value: Value) -> NotificationManager.Notification? {
-        switch self {
-        case .Login:
-            if let user = value as? User {
-                return .LoggedIn(user)
-            }
-        case .Logout:
-            return .LoggedOut
-        }
-        return .None
+    public func notification(value: OperationValue) -> Notification? {
+        return .LoggedOut
     }
 }
 
 public protocol DemoOperationObserver: OperationObserver {
-    typealias Operation = DemoOperation
-
     func loggedInWithUser(user: User)
     func loggedOut()
 }
 
-public extension DemoOperationObserver where Operation == DemoOperation {
+public extension DemoOperationObserver where NotificationManager == DemoPoolNotificationManager {
     func registerForNotifications() {
-        self.pool.notificationManager.loggedInObservers.add(self, self.dynamicType.loggedInWithUser)
-        self.pool.notificationManager.loggedOutObservers.add(self, self.dynamicType.loggedOut)
+        self.notificationManager.loggedInObservers.add(self, self.dynamicType.loggedInWithUser)
+        self.notificationManager.loggedOutObservers.add(self, self.dynamicType.loggedOut)
     }
 }
 
@@ -103,9 +90,9 @@ class DemoViewController: NSObject, DemoOperationObserver {
 
     // MARK: OperationObserver
 
-    typealias Operation = DemoOperation
+    typealias NotificationManager = DemoPoolNotificationManager
 
-    var pool: Pool<Operation>
+    let notificationManager: NotificationManager
 
     // MARK: DemoOperationObserver
 
@@ -123,8 +110,8 @@ class DemoViewController: NSObject, DemoOperationObserver {
 
     // MARK: -
 
-    init(pool: Pool<Operation>) {
-        self.pool = pool
+    init(notificationManager: NotificationManager) {
+        self.notificationManager = notificationManager
         super.init()
         registerForNotifications()
     }

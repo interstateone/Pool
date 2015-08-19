@@ -1,11 +1,12 @@
 import Foundation
+import Pipeline
 
 public protocol PoolOperation {
-    typealias NotificationManager: PoolNotificationManager
+    typealias Notification
+    typealias OperationValue
 
-    func operation(notificationManager: NotificationManager) -> NSOperation // Pipelinable
-    func descendantOperations() -> NSOperation // takes a Pipeline, returns a Pipeline
-    func notification<Value>(value: Value) -> NotificationManager.Notification?
+    var pipeline: Pipeline<OperationValue> { get }
+    func notification(value: OperationValue) -> Notification?
 }
 
 public protocol PoolNotificationManager {
@@ -14,47 +15,26 @@ public protocol PoolNotificationManager {
     func notify(notification: Notification)
 }
 
-public final class Pool<O where O: PoolOperation> {
-    public let notificationManager = O.NotificationManager()
+public final class Pool<NotificationManager where NotificationManager: PoolNotificationManager> {
+    public let notificationManager = NotificationManager()
 
     public init() {}
 
-    public func run(operation: O) {
-        let rootOperation = operation.operation(notificationManager)
-        // Pipeline {
-        //     rootOperation
-        // }
-        // .success { result in
-        //     if let notification = operation.notification(result) {
-        //         notificationManager.notify(notification)
-        //     }
-        //     return result
-        // }
-        let descendant = operation.descendantOperations()
-        descendant.addDependency(rootOperation)
-        // rootPipeline = operation.appendDescendantOperations(rootPipeline)
-
-        let q = NSOperationQueue()
-        q.addOperation(rootOperation)
-        q.addOperation(descendant)
-        // rootPipeline.start()
+    public func run<Operation: PoolOperation where Operation.Notification == NotificationManager.Notification>(operation: Operation) {
+        var pipeline = operation.pipeline
+        pipeline = pipeline.success { (result: Operation.OperationValue) -> Operation.OperationValue in
+            if let notification = operation.notification(result) {
+                self.notificationManager.notify(notification)
+            }
+            return result
+        }
+        pipeline.start()
     }
 }
 
 public protocol OperationObserver: class {
-    typealias Operation: PoolOperation
-    var pool: Pool<Operation> { get set }
+    typealias NotificationManager: PoolNotificationManager
+
+    var notificationManager: NotificationManager { get }
     func registerForNotifications()
-}
-
-public extension OperationObserver {
-    func registerForNotifications() {
-        assertionFailure("registerForNotifications must be overridden by inheriting protocol")
-    }
-}
-
-// example
-
-public class OutputOperation<T>: NSBlockOperation {
-    public var output: T?
 }

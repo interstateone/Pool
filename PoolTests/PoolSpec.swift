@@ -12,31 +12,31 @@ import Nimble
 
 class PoolSpec: QuickSpec {
     override func spec() {
-        var pool: Pool<DemoOperation>!
+        var pool: Pool<DemoPoolNotificationManager>!
         var vc: DemoViewController!
 
         beforeEach {
-            pool = Pool<DemoOperation>()
-            vc = DemoViewController(pool: pool)
+            pool = Pool<DemoPoolNotificationManager>()
+            vc = DemoViewController(notificationManager: pool.notificationManager)
         }
 
         describe(".Login") {
             beforeEach {
-                pool.run(.Login("user@example.com", "password123"))
+                pool.run(LoginOperation(email: "user@example.com", password: "password123"))
             }
 
             it("should notify the VC of login with user") {
-                expect(vc.loggedInUser).notTo(beNil())
+                expect(vc.loggedInUser).toEventuallyNot(beNil())
             }
         }
 
         describe(".Logout") {
             beforeEach {
-                pool.run(.Logout)
+                pool.run(LogoutOperation())
             }
 
             it("should notify the VC of logout") {
-                expect(vc.loggedOutWasCalled).to(beTrue())
+                expect(vc.loggedOutWasCalled).toEventually(beTrue())
             }
         }
     }
